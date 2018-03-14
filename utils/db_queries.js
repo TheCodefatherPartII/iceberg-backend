@@ -4,7 +4,7 @@ const allAccounts = async (pool) => {
 }
 
 const allAccountTransactions = async (pool, accountId) => {
-  const result = await pool.query('SELECT * from transactions where account_id = $1', [accountId])
+  const result = await pool.query('SELECT * from transactions where account_id = $1 AND lat IS NOT NULL and lng IS NOT NULL', [accountId])
   return result.rows
 }
 
