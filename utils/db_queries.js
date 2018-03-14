@@ -13,8 +13,14 @@ const transactionsForEnrichment = async (pool, limit) => {
   return result.rows
 }
 
+const enrichTransaction = async (pool, t) => {
+  const result = await pool.query('UPDATE transactions SET lat = $1, lng = $2, enriched=true WHERE id = $3', [t.lat, t.lng, t.id])
+  return result
+}
+
 module.exports = {
   allAccounts,
   allAccountTransactions,
-  transactionsForEnrichment
+  transactionsForEnrichment,
+  enrichTransaction
 }
