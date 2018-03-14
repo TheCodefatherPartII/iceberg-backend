@@ -1,3 +1,5 @@
+require('events').EventEmitter.prototype._maxListeners = 100;
+
 const fs = require('fs')
 const { transactionsForEnrichment, enrichTransaction } = require('./utils/db_queries')
 
@@ -6,15 +8,17 @@ const lwcEnricher = require('./enrichers/lwc')
 const dbPool = require('./utils/db_pool')
 
 const enrich = async () => {
-  const transactions = await transactionsForEnrichment(dbPool, 10)
-  const promises = transactions.map(async (t) => {
-    t = postcodeEnricher(t)
-    console.log('Postcode enricher', t.description, t.lat, t.lng)
-    t = await lwcEnricher(t)
-    console.log('LWC enricher', t.description, t.lat, t.lng)
-    await enrichTransaction(dbPool, t)
-  })
-  await Promise.all(promises)
+  let transactions = await transactionsForEnrichment(dbPool, 100)
+
+  transactions = transactions.map(t => postcodeEnricher(t))
+  console.log('Postcode enrichment completed')
+
+  transactions = transactions.map(async t => await lwcEnricher(t))
+  console.log('LWC enrichment completed')
+
+  transactions.forEach(async t => await enrichTransaction(dbPool, t))
+  console.log('Enrichment process completed')
+
   process.exit()
 }
 

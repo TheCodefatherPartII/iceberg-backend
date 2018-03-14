@@ -9,7 +9,7 @@ const allAccountTransactions = async (pool, accountId) => {
 }
 
 const transactionsForEnrichment = async (pool, limit) => {
-  const result = await pool.query('SELECT * FROM transactions WHERE enriched IS NULL OR enriched = false LIMIT $1', [parseInt(limit, 10)])
+  const result = await pool.query('SELECT * FROM transactions WHERE enriched IS NULL OR enriched = false ORDER BY RANDOM() LIMIT $1', [parseInt(limit, 10)])
   return result.rows
 }
 
