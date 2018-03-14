@@ -1,11 +1,7 @@
-const dbQuery = require("../internal/PgClient")
-
-const accounts = () => {
+const accounts = (pool) => {
   return async () => {
-    const query = 'SELECT * from accounts'
-    const params = []
-    const result = await dbQuery(query, params)
-    return result
+    const result = await pool.query('SELECT * from accounts')
+    return result.rows
   }
 }
 
