@@ -4,6 +4,7 @@ const parse = require('url').parse
 const accounts = require('./endpoints/accounts')
 const transactions = require('./endpoints/transactions')
 const { serverResponse, errorResponse } = require('./utils/responses')
+const PgClient = require('./internal/PgClient')
 
 const portNum = process.env.PORT || 8080
 
