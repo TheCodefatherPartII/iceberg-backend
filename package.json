@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Terem",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+  },
   "dependencies": {
     "chalk": "^2.3.2",
     "pg": "^7.4.1"
