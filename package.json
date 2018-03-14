@@ -5,6 +5,7 @@
   "author": "Terem",
   "license": "MIT",
   "dependencies": {
+    "chalk": "^2.3.2",
     "pg": "^7.4.1"
   }
 }
