@@ -7,7 +7,7 @@ const serverResponse = (res, dataFunction) => {
   res.end()
 }
 
-const errorResponse = () => {
+const errorResponse = (response) => {
   response.writeHead(404)
   response.write('Page not found')
   response.end()

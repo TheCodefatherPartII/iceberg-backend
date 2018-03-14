@@ -21,7 +21,7 @@ const initialiseWebServer = () => {
         errorResponse(response)
       }
     } else {
-      errorResponse()
+      errorResponse(response)
     }
   }).listen(portNum)
 }
