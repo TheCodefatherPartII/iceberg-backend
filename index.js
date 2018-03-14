@@ -13,7 +13,7 @@ const initialiseWebServer = () => {
     console.log('Incoming request for', request.url)
 
     if (request.url === '/accounts') {
-      serverResponse(response, accounts)
+      serverResponse(response, accounts())
     } else if (request.url.startsWith('/transactions')) {
       let accountId = parse(request.url, true).query.id
       if (accountId) {
