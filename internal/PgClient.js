@@ -1,12 +1,12 @@
 const { Client } = require('pg')
 const client = new Client()
 
-client.connect().then(() => {
-  client.query('SELECT $1::text as message', ['Hello world!']).then((res) => {
-    console.log(res.rows[0].message) // Hello world!
-  }).then(() => {
-    client.end()
-  })
-})
+const dbQuery = async (query, params) => {
+  await client.connect()
+  const result = await client.query(query, params)
+  await client.end()
+  return result.rows
+}
 
-module.exports = client
+
+module.exports = dbQuery

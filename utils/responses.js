@@ -1,7 +1,8 @@
-const serverResponse = (res, dataFunction) => {
-  const response = dataFunction()
-  console.log(response)
+const serverResponse = async (res, dataFunction) => {
+  const response = await dataFunction()
 
+  // console.log(response)
+  // console.log(JSON.stringify(response))
   res.writeHead(200, {'Content-Type': 'application/json'})
   res.write(JSON.stringify(response))
   res.end()
