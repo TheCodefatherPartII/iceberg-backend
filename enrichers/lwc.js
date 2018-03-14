@@ -14,16 +14,19 @@ const lwcEnricher = async (transaction) => {
   await page.mainFrame().click('#search-button', { delay: 185 })
   await page.waitForNavigation(waitOptions)
 
-  // await page.screenshot({path: `${transaction.id}.png`});
+  await page.screenshot({path: `/Users/Simez/Downloads/${transaction.id}.png`});
   const content = await page.content()
 
   // Extract what we need
-  const [_, lat,lng] = content.match(rx)
+  const result = content.match(rx)
+  if (result && result.length === 3) {
+    [_, lat,lng] = result
 
-  if (Math.abs(lat) > 0 && Math.abs(lng) > 0) {
-    console.log('LWC enrichment successful for', transaction.description)
-    transaction.lat = lat
-    transaction.lng = lng
+    if (Math.abs(lat) > 0 && Math.abs(lng) > 0) {
+      console.log('LWC enrichment successful for', transaction.description)
+      transaction.lat = lat
+      transaction.lng = lng
+    }
   }
 
   return transaction

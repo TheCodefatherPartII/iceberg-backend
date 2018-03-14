@@ -8,16 +8,15 @@ const lwcEnricher = require('./enrichers/lwc')
 const dbPool = require('./utils/db_pool')
 
 const enrich = async () => {
-  let transactions = await transactionsForEnrichment(dbPool, 100)
+  let transactions = await transactionsForEnrichment(dbPool, 10000)
 
   transactions = transactions.map(t => postcodeEnricher(t))
-  console.log('Postcode enrichment completed')
 
-  transactions = transactions.map(async t => await lwcEnricher(t))
-  console.log('LWC enrichment completed')
-
-  transactions.forEach(async t => await enrichTransaction(dbPool, t))
-  console.log('Enrichment process completed')
+  for(let x = 0; x < transactions.length; x++) {
+    let t = transactions[x]
+    t = await lwcEnricher(t)
+    await enrichTransaction(dbPool, t)
+  }
 
   process.exit()
 }
