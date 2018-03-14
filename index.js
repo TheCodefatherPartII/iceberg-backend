@@ -1,11 +1,9 @@
 const http = require('http')
 const parse = require('url').parse
-const { Pool, Client } = require('pg')
-const pool = new Pool()
+const dbPool = require('./utils/db_pool')
 
-const accounts = require('./endpoints/accounts')
-const transactions = require('./endpoints/transactions')
 const { serverResponse, errorResponse } = require('./utils/responses')
+const { allAccounts, allAccountTransactions } = require('./utils/db_queries')
 
 const portNum = process.env.PORT || 8080
 
@@ -14,11 +12,11 @@ const initialiseWebServer = () => {
     console.log('Incoming request for', request.url)
 
     if (request.url === '/accounts') {
-      serverResponse(response, accounts(pool))
+      serverResponse(response, allAccounts(dbPool))
     } else if (request.url.startsWith('/transactions')) {
       let accountId = parse(request.url, true).query.id
       if (accountId) {
-        serverResponse(response, transactions(pool, accountId))
+        serverResponse(response, allAccountTransactions(dbPool, accountId))
       } else {
         errorResponse(response)
       }
