@@ -29,6 +29,7 @@ const lwcEnricher = async (transaction) => {
     }
   }
 
+  transaction.enrichment_level = 2
   return transaction
 }
 

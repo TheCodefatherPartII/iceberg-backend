@@ -34,6 +34,7 @@ const postcodeEnricher = (t) => {
     console.log(red('No match found for', description))
   }
 
+  t.enrichment_level = 1
   return t
 }
 

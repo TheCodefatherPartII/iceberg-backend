@@ -8,13 +8,13 @@ const allAccountTransactions = async (pool, accountId) => {
   return result.rows
 }
 
-const transactionsForEnrichment = async (pool, limit) => {
-  const result = await pool.query('SELECT * FROM transactions WHERE enriched IS NULL OR enriched = false ORDER BY RANDOM() LIMIT $1', [parseInt(limit, 10)])
+const transactionsForEnrichment = async (pool, enrichment_level) => {
+  const result = await pool.query('SELECT * FROM transactions WHERE enrichment_level < $1 ORDER BY RANDOM()', [parseInt(enrichment_level, 10)])
   return result.rows
 }
 
 const enrichTransaction = async (pool, t) => {
-  const result = await pool.query('UPDATE transactions SET lat = $1, lng = $2, enriched=true WHERE id = $3', [t.lat, t.lng, t.id])
+  const result = await pool.query('UPDATE transactions SET lat = $1, lng = $2, enrichment_level=$3 WHERE id = $4', [t.lat, t.lng, t.enrichment_level, t.id])
   return result
 }
 
