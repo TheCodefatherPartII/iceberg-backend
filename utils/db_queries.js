@@ -1,5 +1,5 @@
 const allAccounts = async (pool) => {
-  const result = await pool.query('SELECT * from accounts')
+  const result = await pool.query('SELECT * from accounts ORDER BY id DESC')
   return result.rows
 }
 
